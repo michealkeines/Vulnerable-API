@@ -1,0 +1,213 @@
+openapi: 3.0.0
+info:
+  title: "Vulnerable Flask Application"
+  description: "An API with vulnerable path for different vulnerabilities"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+
+paths:
+  /xssnovuln:
+    get:
+      operationId: "xss.novuln"
+      tags:
+        - "XSS Vulnerability"
+      summary: "Reflected XSS using GET method"
+      responses:
+        "200":
+          description: "reflect the username from username paramter"
+  /xssreflected:
+    post:
+      operationId: "xss.reflected"
+      tags:
+        - xss
+      summary: "XSS using POST method"
+      requestBody:
+        description: "reflect the username parameter"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "xss"
+              $ref: "#/components/schemas/xss"
+      responses:
+        "200":
+          description: "this is the username"
+  /lfinovuln:
+    get:
+      operationId: "lfi.lfinovuln"
+      tags:
+        - "LFI Vulnerability"
+      summary: "LFI using GET method"
+      responses:
+        "200":
+          description: "return a file from the dir"
+  /lfivuln:
+    post:
+      operationId: "lfi.lfivuln"
+      tags:
+        - lfi
+      summary: "LFI using POST method"
+      requestBody:
+        description: "get file, but no proper protection"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "lfi"
+              $ref: "#/components/schemas/lfi"
+      responses:
+        "200":
+          description: "this is the file output"
+  /rfinovuln:
+    get:
+      operationId: "rfi.rfinovuln"
+      tags:
+        - "RFI Vulnerability"
+      summary: "RFI using GET method"
+      responses:
+        "200":
+          description: "return a file from the dir"
+  /rfivuln:
+    post:
+      operationId: "rfi.rfivuln"
+      tags:
+        - rfi
+      summary: "RFI using POST method"
+      requestBody:
+        description: "get Image, but no proper protection"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "rfi"
+              $ref: "#/components/schemas/rfi"
+      responses:
+        "200":
+          description: "this is the image output"
+  /hhinovuln:
+    get:
+      operationId: "hhi.hhinovuln"
+      tags:
+        - "Host Header Injection Vulnerability"
+      summary: "HHI using GET method"
+      responses:
+        "200":
+          description: "return a email for reseting"
+  /hhivuln:
+    post:
+      operationId: "hhi.hhivuln"
+      tags:
+        - hhi
+      summary: "HHI using POST method"
+      requestBody:
+        description: "email reset but it is not reflected"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "hhi"
+              $ref: "#/components/schemas/hhi"
+      responses:
+        "200":
+          description: "this is the reset link"
+  /sstinovuln:
+    get:
+      operationId: "ssti.sstinovuln"
+      tags:
+        - "SSTI Vulnerability"
+      summary: "SSTI using GET method"
+      responses:
+        "200":
+          description: "return a math eval"
+  /sstivuln:
+    post:
+      operationId: "ssti.sstivuln"
+      tags:
+        - ssti
+      summary: "SSTI using POST method"
+      requestBody:
+        description: "math evals are not protected"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "ssti"
+              $ref: "#/components/schemas/ssti"
+      responses:
+        "200":
+          description: "this is used to evaluting math expressions"
+  /sqlinovuln:
+    get:
+      operationId: "sqli.sqlinovuln"
+      tags:
+        - "SQLI Vulnerability"
+      summary: "SQLI using GET method"
+      responses:
+        "200":
+          description: "login using creds"
+  /sqlivuln:
+    post:
+      operationId: "sqli.sqlivuln"
+      tags:
+        - sqli
+      summary: "SQLI using POST method"
+      requestBody:
+        description: "login not protected"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "sqli"
+              $ref: "#/components/schemas/sqli"
+      responses:
+        "200":
+          description: "login using creds"
+components:
+  schemas:
+    xss:
+      type: "object"
+      required:
+        - username
+      properties:
+        username:
+          type: "string"
+    lfi:
+      type: "object"
+      required:
+        - filename
+      properties:
+        filename:
+          type: "string"
+    rfi:
+      type: "object"
+      required:
+        - imagelink
+      properties:
+        imagelink:
+          type: "string"
+    hhi:
+      type: "object"
+      required:
+        - email
+      properties:
+        email:
+          type: "string"
+    ssti:
+      type: "object"
+      required:
+        - mathexp
+      properties:
+        mathexp:
+          type: "string"
+    sqli:
+      type: "object"
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: "string"
+        password:
+          type: "string"
