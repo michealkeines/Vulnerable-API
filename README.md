@@ -6,24 +6,20 @@ This project is an intentionally vulnerable API-based Python application that us
 
 ## Setup Instructions
 
-```
+```bash
 git clone https://github.com/yourusername/vulnerable-api.git
 cd vulnerable-api
 ```
 
 ### Install the required Python packages:
 
-bash
-
-```
-pip install -r requirements.txt
+```bash
+pip install -r req.txt
 ```
 
 ### Run the application:
 
-bash
-
-```    
+```bash   
 python app.py
 
 Access the application in your web browser by navigating to http://localhost:8000.
